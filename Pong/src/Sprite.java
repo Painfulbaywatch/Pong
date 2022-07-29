@@ -19,7 +19,7 @@ public class Sprite {
 	}
 	
 	public void setxPosition(int newxPosition, int panelWidth) {
-		this.xPosition = newxPosition;
+		xPosition = newxPosition;
 		if(xPosition + width > panelWidth) {
 			xPosition = panelWidth - width;
 		} else if (xPosition < 0){
@@ -36,7 +36,7 @@ public class Sprite {
 	}
 	
 	public void setyPosition(int newyPosition, int panelHeight) {
-		this.yPosition = newyPosition;
+		yPosition = newyPosition;
 		if (yPosition + height > panelHeight) {
 			yPosition = panelHeight - height;
 		} else if (yPosition < 0) {
@@ -80,8 +80,8 @@ public class Sprite {
 		return colour;
 	}
 	
-	public void setColour(Color newColour) {
-		this.colour = newColour;
+	public void setColour(Color colour) {
+		this.colour = colour;
 	}
 	
 	public void setInitialPosition(int newInitialxPosition, int newInitialyPosition) {
