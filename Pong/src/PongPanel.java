@@ -23,6 +23,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		
 		setBackground(PANEL_COLOR);
 		Timer timer = new Timer (TIMER_DELAY, this);
+		timer.start();
 	}
 	
 
