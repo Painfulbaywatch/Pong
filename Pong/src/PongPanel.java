@@ -18,6 +18,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	GameState gameState = GameState.Initialising;
 	Paddle paddle1;
 	Paddle paddle2;
+	private final static int BALL_MOVEMENT_SPEED = 2;
 
 	public PongPanel(){
 		
@@ -57,15 +58,21 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
         case Initialising: {
             createObjects();
            gameState = GameState.Playing;
+           ball.setxVelocity(BALL_MOVEMENT_SPEED);
+           ball.setyVelocity(BALL_MOVEMENT_SPEED);
+           
             break;
         }
         case Playing: {
+        	moveObject(ball);
+        	checkWallBounce();
             break;
        }
        case GameOver: {
            break;
        }
    }
+		
 	}
 	
 	@Override
@@ -97,6 +104,22 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	public void paintSprite(Graphics g, Sprite sprite) {
 		g.setColor(sprite.getColour());
 		g.fillRect(sprite.getxPosition(), sprite.getyPosition(), sprite.getWidth(), sprite.getHeight());
+	}
+	
+	private void moveObject(Sprite sprite) {
+		sprite.setxPosition(sprite.getxPosition() + sprite.getxVelocity(), getWidth());
+		sprite.setyPosition(sprite.getyPosition() + sprite.getyVelocity(), getHeight());
+	}
+	
+	private void checkWallBounce() {
+		if (ball.getxPosition() <= 0) {
+			ball.setxVelocity( -ball.getxVelocity());
+		} else if(ball.getxPosition() >= getWidth() - ball.getWidth()) {
+			ball.setxVelocity(-ball.getxVelocity());
+		}
+		if (ball.getyPosition() <= 0 || ball.getyPosition() >= getHeight() - ball.getHeight()) {
+			ball.setyVelocity( -ball.getyVelocity());
+		}
 	}
 
 }

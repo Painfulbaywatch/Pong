@@ -11,6 +11,7 @@ public class Ball extends Sprite{
 		setHeight(BALL_HEIGHT);
 		setWidth(BALL_WIDTH);
 		
+		
 		setInitialPosition(panelWidth / 2 - (getWidth() / 2), panelHeight / 2 - (getHeight() / 2));
 		resetToInitialPosition();
 	}
