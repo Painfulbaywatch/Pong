@@ -23,6 +23,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private final static int POINTS_TO_WIN = 3;
 	int player1score = 0, player2score = 0;
 	Player gameWinner;
+	private final static int XPADDING = 100;
+	private final static int YPADDING = 100;
+	private final static int FONT_SIZE = 50;
+	private final static String SCORE_FONT_FAMILY = "Serif";
+	private final static String WIN_TEXT = "WIN!";
 
 	public PongPanel(){
 		
@@ -109,6 +114,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			paintSprite(g, paddle2);
 			paintScores(g);
 		}
+		if(gameState == GameState.GameOver) {
+			paintWin(g, gameWinner);
+		}
 	}
 	
 	private void paintDottedLine(Graphics g) {
@@ -185,15 +193,23 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	private void paintScores(Graphics g) {
-		int xPadding = 100;
-		int yPadding = 100;
-		int fontSize = 50;
-		Font scoreFont = new Font("Serif", Font.BOLD, fontSize);
+		Font scoreFont = new Font(SCORE_FONT_FAMILY, Font.BOLD, FONT_SIZE);
 		String leftScore = Integer.toString(player1score);
 		String rightScore = Integer.toString(player2score);
 		g.setFont(scoreFont);
-		g.drawString(leftScore, xPadding, yPadding);
-		g.drawString(rightScore, getWidth()-xPadding, yPadding);
+		g.drawString(leftScore, XPADDING, YPADDING);
+		g.drawString(rightScore, getWidth()-XPADDING, YPADDING);
+	}
+	
+	private void paintWin(Graphics g, Player winner) {
+		Font scoreFont = new Font(SCORE_FONT_FAMILY, Font.BOLD, FONT_SIZE);
+		g.setFont(scoreFont);
+		if (winner == Player.One) {
+		g.drawString(WIN_TEXT, getWidth() / 4, (getHeight() / 2) + FONT_SIZE / 2);
+		}
+		if (winner == Player.Two) {
+		g.drawString(WIN_TEXT, getWidth() / 4 * 3, (getHeight() / 2) + FONT_SIZE / 2);
+		}
 	}
 
 }
