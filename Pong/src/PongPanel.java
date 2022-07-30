@@ -18,13 +18,18 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	GameState gameState = GameState.Initialising;
 	Paddle paddle1;
 	Paddle paddle2;
-	private final static int BALL_MOVEMENT_SPEED = 2;
+	private final static int BALL_MOVEMENT_SPEED = 3;
+	private final static int POINTS_TO_WIN = 3;
+	int player1score = 0, player2score = 0;
+	Player gameWinner;
 
 	public PongPanel(){
 		
 		setBackground(PANEL_COLOR);
 		Timer timer = new Timer (TIMER_DELAY, this);
 		timer.start();
+		addKeyListener(this);
+		setFocusable(true);
 	}
 	
 
@@ -37,13 +42,27 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent event) {
 		// TODO Auto-generated method stub
-		
+		if(event.getKeyCode() == KeyEvent.VK_UP) {
+			paddle2.setyVelocity(-6);
+		} else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
+			paddle2.setyVelocity(6);
+		}
+		if(event.getKeyCode() == KeyEvent.VK_W) {
+			paddle1.setyVelocity(-6);
+		} else if(event.getKeyCode() == KeyEvent.VK_S) {
+			paddle1.setyVelocity(6);
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent event) {
 		// TODO Auto-generated method stub
-		
+		if(event.getKeyCode() == KeyEvent.VK_UP || event.getKeyCode() == KeyEvent.VK_DOWN) {
+			paddle2.setyVelocity(0);
+		}
+		if(event.getKeyCode() == KeyEvent.VK_W || event.getKeyCode() == KeyEvent.VK_S) {
+			paddle1.setyVelocity(0);
+		}
 	}
 
 	@Override
@@ -64,8 +83,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
             break;
         }
         case Playing: {
+        	moveObject(paddle1);
+        	moveObject(paddle2);
         	moveObject(ball);
         	checkWallBounce();
+        	checkPaddleBounce();
+        	checkWin();
             break;
        }
        case GameOver: {
@@ -114,11 +137,48 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private void checkWallBounce() {
 		if (ball.getxPosition() <= 0) {
 			ball.setxVelocity( -ball.getxVelocity());
+			addScore(Player.Two);
+			resetBall();
 		} else if(ball.getxPosition() >= getWidth() - ball.getWidth()) {
 			ball.setxVelocity(-ball.getxVelocity());
+			addScore(Player.One);
+			resetBall();
 		}
 		if (ball.getyPosition() <= 0 || ball.getyPosition() >= getHeight() - ball.getHeight()) {
 			ball.setyVelocity( -ball.getyVelocity());
+		}
+	}
+	
+	private void resetBall() {
+		ball.resetToInitialPosition();
+	}
+	
+	private void checkPaddleBounce() {
+		if(ball.getxVelocity() < 0 && ball.getRectangle().intersects(paddle1.getRectangle())) {
+			ball.setxVelocity(BALL_MOVEMENT_SPEED);
+		}
+		if(ball.getxVelocity() > 0 && ball.getRectangle().intersects(paddle2.getRectangle())) {
+			ball.setxVelocity(-BALL_MOVEMENT_SPEED);
+		}
+	}
+	
+	private void addScore(Player player) {
+		if (player == Player.One) {
+			player1score++;
+		}
+		if (player == Player.Two) {
+			player2score++;
+		}
+	}
+	
+	private void checkWin() {
+		if(player1score == POINTS_TO_WIN) {
+			gameWinner = Player.One;
+			gameState = GameState.GameOver;
+		}
+		if(player2score == POINTS_TO_WIN) {
+			gameWinner = Player.Two;
+			gameState = GameState.GameOver;
 		}
 	}
 
