@@ -19,7 +19,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	GameState gameState = GameState.Initialising;
 	Paddle paddle1;
 	Paddle paddle2;
-	private final static int BALL_MOVEMENT_SPEED = 3;
+	private final static int BALL_MOVEMENT_SPEED = 6;
 	private final static int POINTS_TO_WIN = 3;
 	int player1score = 0, player2score = 0;
 	Player gameWinner;
@@ -49,14 +49,14 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent event) {
 		// TODO Auto-generated method stub
 		if(event.getKeyCode() == KeyEvent.VK_UP) {
-			paddle2.setyVelocity(-6);
+			paddle2.setyVelocity(-5);
 		} else if(event.getKeyCode() == KeyEvent.VK_DOWN) {
-			paddle2.setyVelocity(6);
+			paddle2.setyVelocity(5);
 		}
 		if(event.getKeyCode() == KeyEvent.VK_W) {
-			paddle1.setyVelocity(-6);
+			paddle1.setyVelocity(-5);
 		} else if(event.getKeyCode() == KeyEvent.VK_S) {
-			paddle1.setyVelocity(6);
+			paddle1.setyVelocity(5);
 		}
 	}
 
